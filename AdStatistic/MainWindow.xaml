@@ -3,10 +3,151 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AdStatistic"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="AdInsight — анализ эффективности рекламы"
+        Width="1080"
+        Height="760"
+        WindowStartupLocation="CenterScreen"
+        Background="#111827">
+    <Window.Resources>
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="#1F2937" />
+            <Setter Property="BorderBrush" Value="#374151" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Padding" Value="18" />
+            <Setter Property="Margin" Value="0,0,0,14" />
+        </Style>
+
+        <Style x:Key="SectionTitleStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#F9FAFB" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+
+        <Style x:Key="LabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#D1D5DB" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="0,7,0,4" />
+        </Style>
+
+        <Style x:Key="InputStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="#111827" />
+            <Setter Property="Foreground" Value="#F9FAFB" />
+            <Setter Property="BorderBrush" Value="#4B5563" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="#2563EB" />
+            <Setter Property="Padding" Value="14,10" />
+            <Setter Property="Margin" Value="0,12,0,0" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <Style x:Key="ResultStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E5E7EB" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="LineHeight" Value="24" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,18">
+            <TextBlock Text="📊 AdInsight"
+                       Foreground="#93C5FD"
+                       FontSize="16"
+                       FontWeight="Bold" />
+            <TextBlock Text="Сервис для быстрой оценки выгоды рекламной кампании"
+                       Foreground="#F9FAFB"
+                       FontSize="28"
+                       FontWeight="SemiBold"
+                       Margin="0,6,0,4" />
+            <TextBlock Text="Введите данные кампании — приложение покажет стоимость, прирост клиентов и простой прогноз по бюджету."
+                       Foreground="#9CA3AF"
+                       FontSize="14" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.15*" />
+                <ColumnDefinition Width="0.85*" />
+            </Grid.ColumnDefinitions>
+
+            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Margin="0,0,16,0">
+                <StackPanel>
+                    <Border Style="{StaticResource CardBorderStyle}">
+                        <StackPanel>
+                            <TextBlock Text="1) Данные текущей кампании" Style="{StaticResource SectionTitleStyle}" />
+
+                            <TextBlock Text="Бюджет кампании, ₽" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="BudgetTextBox" Style="{StaticResource InputStyle}" Text="10000" />
+
+                            <TextBlock Text="Сколько часов шла реклама" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="HoursTextBox" Style="{StaticResource InputStyle}" Text="24" />
+
+                            <TextBlock Text="Количество просмотров рекламы" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="ViewsTextBox" Style="{StaticResource InputStyle}" Text="50000" />
+
+                            <TextBlock Text="Количество кликов" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="ClicksTextBox" Style="{StaticResource InputStyle}" Text="5000" />
+
+                            <TextBlock Text="Обычно клиентов в день (до рекламы)" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="CustomersBeforeTextBox" Style="{StaticResource InputStyle}" Text="100" />
+
+                            <TextBlock Text="Стало клиентов в день (после рекламы)" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="CustomersAfterTextBox" Style="{StaticResource InputStyle}" Text="125" />
+
+                            <TextBlock Text="Средняя прибыль с одного клиента, ₽" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="ProfitPerCustomerTextBox" Style="{StaticResource InputStyle}" Text="350" />
+
+                            <Button Content="Рассчитать эффективность" Style="{StaticResource PrimaryButtonStyle}" Click="CalculateEfficiencyButton_Click" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource CardBorderStyle}">
+                        <StackPanel>
+                            <TextBlock Text="2) Прогноз по новому бюджету" Style="{StaticResource SectionTitleStyle}" />
+
+                            <TextBlock Text="Новый бюджет для прогноза, ₽" Style="{StaticResource LabelStyle}" />
+                            <TextBox x:Name="ForecastBudgetTextBox" Style="{StaticResource InputStyle}" Text="15000" />
+
+                            <Button Content="Построить прогноз" Style="{StaticResource PrimaryButtonStyle}" Click="CalculateForecastButton_Click" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <StackPanel Grid.Column="1">
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Результаты эффективности" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock x:Name="EfficiencyResultTextBlock" Style="{StaticResource ResultStyle}" Text="Нажмите «Рассчитать эффективность», чтобы увидеть результат." />
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource CardBorderStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Прогнозатор" Style="{StaticResource SectionTitleStyle}" />
+                        <TextBlock x:Name="ForecastResultTextBlock" Style="{StaticResource ResultStyle}" Text="После расчёта эффективности можно построить прогноз по новому бюджету." />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Grid>
         
     </Grid>
 </Window>
